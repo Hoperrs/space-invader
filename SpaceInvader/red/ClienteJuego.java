@@ -6,7 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClienteJuego {
-    private static final String SERVIDOR_IP = "localhost";
+    private static String SERVIDOR_IP = "localhost";
     private static final int SERVIDOR_PUERTO = 5000;
     
     private Socket socket;
@@ -30,7 +30,14 @@ public class ClienteJuego {
     private EventosCliente manejadorEventos;
     
     public ClienteJuego(EventosCliente manejadorEventos) {
+        this(manejadorEventos, null);
+    }
+
+    public ClienteJuego(EventosCliente manejadorEventos, String ipServidor) {
         this.manejadorEventos = manejadorEventos;
+        if (ipServidor != null && !ipServidor.isEmpty()) {
+            SERVIDOR_IP = ipServidor;
+        }
     }
     
     // Método para conectar al servidor

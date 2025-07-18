@@ -31,6 +31,7 @@ public class InvasoresEspaciales extends JPanel implements ActionListener, KeyLi
     private EstadoJuego estadoActual;
     private JLabel lblEstadoConexion;
     private Map<Integer, Color> coloresJugadores;
+    private static String ipServidor = null;
 
     class Bloque {
         int x;
@@ -125,8 +126,15 @@ public class InvasoresEspaciales extends JPanel implements ActionListener, KeyLi
         lblEstadoConexion.setForeground(Color.WHITE);
         this.add(lblEstadoConexion);
 
+        // Preguntar IP del servidor solo la primera vez
+        if (ipServidor == null) {
+            ipServidor = JOptionPane.showInputDialog(this, "IP del servidor:", "Conexión", JOptionPane.QUESTION_MESSAGE);
+            if (ipServidor == null || ipServidor.isEmpty()) {
+                ipServidor = "localhost";
+            }
+        }
         // Inicializar cliente
-        clienteJuego = new ClienteJuego(this);
+        clienteJuego = new ClienteJuego(this, ipServidor);
         clienteJuego.conectar();
 
         bucleJuego = new Timer(1000 / 60, this);
